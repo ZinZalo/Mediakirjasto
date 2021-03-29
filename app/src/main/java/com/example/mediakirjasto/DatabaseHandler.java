@@ -1,10 +1,13 @@
 package com.example.mediakirjasto;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import java.sql.DataTruncation;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,8 +34,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     //Creating Tables
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_GAME_TABLE = "CREATE TABLE " + TABLE_GAME + "("
-            + KEY_ID + "INTEGER PRIMARY KEY," + KEY_NAME + "TEXT," + KEY_PLATFORM + "TEXT," + KEY_REGION + "TEXT," + KEY_EXPANSION + "TEXT," + KEY_MEDIA_TYPE + "TEXT," + KEY_COPIES + "TEXT," + KEY_NOTES + "TEXT" + ")";
+        String CREATE_GAME_TABLE = " CREATE TABLE " + TABLE_GAME + "("
+            + KEY_ID + " INTEGER PRIMARY KEY, " + KEY_NAME + " TEXT, " + KEY_PLATFORM + " TEXT, " + KEY_REGION + " TEXT, "
+                + KEY_EXPANSION + " TEXT, " + KEY_MEDIA_TYPE + " TEXT, " + KEY_COPIES + " TEXT, " + KEY_NOTES + " TEXT " + ")";
         db.execSQL(CREATE_GAME_TABLE);
     }
 
@@ -63,7 +67,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.insert(TABLE_GAME, null, values);
         db.close();
     }
-
+    /*
     //get single game
     Game getGame(int id){
         SQLiteDatabase db = this.getReadableDatabase();
@@ -74,14 +78,20 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         if (cursor != null)
             cursor.moveToFirst();
 
-        Game game = new Game(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6));
+        Game game = new Game(Integer.parseInt(cursor.getString(0)), cursor.getString(1),
+                cursor.getString(2), cursor.getString(3), cursor.getString(4),
+                cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9));
         return game;
     }
+
+     */
+
+
 
     //get all games in a list view
     public List<Game> getAllGames() {
         List<Game> gameList = new ArrayList<Game>();
-        String selectQuery = "SELECT *FROM" + TABLE_GAME;
+        String selectQuery = "SELECT *FROM " + TABLE_GAME;
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -93,15 +103,44 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 game.setName(cursor.getString(1));
                 game.setPlatform(cursor.getString(2));
                 game.setRegion(cursor.getString(3));
-                game.setPlatform(cursor.getString(4));
-                game.setRegion(cursor.getString(5));
-                game.setExpansion(cursor.getInt(6));
-                game.setMediaType(cursor.getString(7));
-                game.setCopies(cursor.getInt(8));
-                game.setNotes(cursor.getString(9));
+                game.setRegion(cursor.getString(4));
+                game.setExpansion(cursor.getString(5));
+                game.setMediaType(cursor.getString(6));
+                game.setCopies(cursor.getString(7));
+                //game.setNotes(cursor.getString(8));
                 gameList.add(game);
             } while ( cursor.moveToNext());
         }
         return gameList;
+    }
+
+    //update single game
+    public int updateGame(Game game) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_NAME, game.getName());
+        values.put(KEY_PLATFORM, game.getPlatform());
+        //todo loput
+
+        //updating row
+        return db.update(TABLE_GAME, values, KEY_ID + " = ?", new String[] {String.valueOf(game.getID())});
+    }
+
+    //deleting single game
+    public void deleteGame(Game game){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_GAME, KEY_ID + " = ?", new String[]{String.valueOf(game.getID())});
+        db.close();
+    }
+
+    //getting game count
+    public int getGameCount(){
+        String countQuery = "SELECT *FROM " + TABLE_GAME;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(countQuery, null);
+        cursor.close();
+
+        return cursor.getCount();
     }
 }

@@ -5,15 +5,14 @@ public class Game {
     String _name;
     String _platform;
     String _region;
-    int _expansion;
+    String _expansion;
     String _media_type;
-    int _copies;
+    String _copies;
     String _notes;
 
-    public Game(int i, String string, String cursorString, String s, String media_type, String string1, String notes) {
-    }
+    public Game(){ }
 
-    public Game(int id, String name, String platform, String region, int expansion, String _media_type, int copies, String notes) {
+    public Game(int id, String name, String platform, String region, String expansion, String _media_type, String copies, String notes) {
         this._id = id;
         this._name = name;
         this._platform = platform;
@@ -24,7 +23,7 @@ public class Game {
         this._notes = notes;
     }
 
-    public Game(String name, String platform, String region, int expansion, String _media_type, int copies, String notes) {
+    public Game(String name, String platform, String region, String expansion, String _media_type, String copies, String notes) {
         this._name = name;
         this._platform = platform;
         this._region = region;
@@ -66,11 +65,11 @@ public class Game {
         this._region = region;
     }
 
-    public int getExpansion() {
+    public String getExpansion() {
         return this._expansion;
     }
 
-    public void setExpansion(int expansion) {
+    public void setExpansion(String expansion) {
         this._expansion = expansion;
     }
 
@@ -82,11 +81,11 @@ public class Game {
         this._media_type = mediaType;
     }
 
-    public int getCopies() {
+    public String getCopies() {
         return this._copies;
     }
 
-    public void setCopies(int copies) {
+    public void setCopies(String copies) {
         this._copies = copies;
     }
 

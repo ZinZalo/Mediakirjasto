@@ -9,6 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Mediakirjasto">
+        <activity android:name=".ActivityMusic" android:parentActivityName=".MainActivity"></activity>
+        <activity android:name=".ActivityMovies" android:parentActivityName=".MainActivity"/>
+        <activity android:name=".ActivityBooks" android:parentActivityName=".MainActivity"/>
+        <activity
+            android:name=".ActivityGames"
+            android:parentActivityName=".MainActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

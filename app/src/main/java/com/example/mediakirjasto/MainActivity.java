@@ -7,11 +7,16 @@ import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,20 +34,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         DatabaseHandler db = new DatabaseHandler(this);
 
-        //Inserting games
-        //Title, platform, region, expansion, media type, copies, notes
-        //Log.d("Insert: ", "Inserting ..");
-        //db.addGame(new Game("Tekken", "PSX", "EU", "0", "CD", "1", " "));
-
-
-        //reading
-        Log.d("Reading: ", "Reading all games..");
-        List<Game> games = db.getAllGames();
-
-        for (Game gm : games){
-            String log = "Id: " + gm.getID() + " ,Name: " + gm.getName();
-            Log.d("Name: ", log);
-        }
     }
     //user taps button
     public void onClick(View view) {

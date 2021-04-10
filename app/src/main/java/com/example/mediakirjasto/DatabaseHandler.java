@@ -6,12 +6,14 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.widget.Toast;
 
 import java.sql.DataTruncation;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DatabaseHandler extends SQLiteOpenHelper {
+    private Context context;
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME =  "Kollektio";
     private static final String TABLE_GAME = "games";
@@ -29,14 +31,22 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     public DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        this.context = context;
 
     }
     //Creating Tables
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_GAME_TABLE = " CREATE TABLE " + TABLE_GAME + "("
-            + KEY_ID + " INTEGER PRIMARY KEY, " + KEY_NAME + " TEXT, " + KEY_PLATFORM + " TEXT, " + KEY_REGION + " TEXT, "
-                + KEY_EXPANSION + " TEXT, " + KEY_MEDIA_TYPE + " TEXT, " + KEY_COPIES + " TEXT, " + KEY_NOTES + " TEXT " + ")";
+        String CREATE_GAME_TABLE =
+                " CREATE TABLE " + TABLE_GAME + "("
+                        + KEY_ID + " INTEGER PRIMARY KEY, " +
+                        KEY_NAME + " TEXT, " +
+                        KEY_PLATFORM + " TEXT, " +
+                        KEY_REGION + " TEXT, " +
+                        KEY_EXPANSION + " TEXT, " +
+                        KEY_MEDIA_TYPE + " TEXT, " +
+                        KEY_COPIES + " TEXT, " +
+                        KEY_NOTES + " TEXT " + ")";
         db.execSQL(CREATE_GAME_TABLE);
     }
 
@@ -51,22 +61,41 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     //add new game
-    void addGame(Game game){
+    void addGame(String gameTitle, String gamePlatform, String gameRegion, String gameExpansion, String gameMediaType, String gameCopies, String gameNotes){
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(KEY_NAME, game.getName());
-        values.put(KEY_PLATFORM, game.getPlatform());
-        values.put(KEY_REGION, game.getRegion());
-        values.put(KEY_EXPANSION, game.getExpansion());
-        values.put(KEY_MEDIA_TYPE, game.getMediaType());
-        values.put(KEY_COPIES, game.getCopies());
-        values.put(KEY_NOTES,game.getNotes());
+        values.put(KEY_NAME, gameTitle);
+        values.put(KEY_PLATFORM, gamePlatform);
+        values.put(KEY_REGION, gameRegion);
+        values.put(KEY_EXPANSION, gameExpansion);
+        values.put(KEY_MEDIA_TYPE, gameMediaType);
+        values.put(KEY_COPIES, gameCopies);
+        values.put(KEY_NOTES, gameNotes);
 
         //Inserting row
-        db.insert(TABLE_GAME, null, values);
-        db.close();
+        long result = db.insert(TABLE_GAME, null, values);
+        if (result == -1) {
+            Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show();
+        }else {
+            Toast.makeText(context,"Added successfully",Toast.LENGTH_SHORT).show();
+        }
+        //db.close();
     }
+
+    Cursor gameReadData(){
+        String query = "SELECT * FROM " + TABLE_GAME;
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = null;
+        if (db != null) {
+            cursor = db.rawQuery(query, null);
+        }
+        return cursor;
+    }
+
+
+
     /*
     //get single game
     Game getGame(int id){
@@ -84,7 +113,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return game;
     }
 
-     */
+
 
 
 
@@ -143,4 +172,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         return cursor.getCount();
     }
+
+     */
 }

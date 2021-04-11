@@ -1,5 +1,6 @@
 package com.example.mediakirjasto;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -50,10 +51,18 @@ public class ActivityGames extends AppCompatActivity {
 
         gameDisplayData();
 
-        customAdapter = new CustomAdapter(ActivityGames.this, game_id, game_title, game_platform ,game_region, game_expansion, game_media_type, game_copies, game_notes);
+        customAdapter = new CustomAdapter(ActivityGames.this,this, game_id, game_title, game_platform ,game_region, game_expansion, game_media_type, game_copies, game_notes);
         recyclerView.setAdapter(customAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(ActivityGames.this));
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1){
+            recreate();
+        }
     }
 
     void gameDisplayData(){

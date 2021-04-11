@@ -1,6 +1,7 @@
 package com.example.mediakirjasto;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -14,6 +15,7 @@ import java.util.List;
 
 public class DatabaseHandler extends SQLiteOpenHelper {
     private Context context;
+
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME =  "Kollektio";
     private static final String TABLE_GAME = "games";
@@ -29,7 +31,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String KEY_COPIES = "copies";
     private static final String KEY_NOTES = "notes";
 
-    public DatabaseHandler(Context context) {
+    DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.context = context;
 
@@ -94,84 +96,22 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return cursor;
     }
 
-
-
-    /*
-    //get single game
-    Game getGame(int id){
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        Cursor cursor = db.query(TABLE_GAME, new String[] { KEY_ID,
-                KEY_NAME, KEY_PLATFORM, KEY_REGION, KEY_PLATFORM, KEY_REGION, KEY_EXPANSION, KEY_MEDIA_TYPE, KEY_COPIES, KEY_NOTES }, KEY_ID + "=?",
-                new String[] {String.valueOf(id) }, null, null, null,null);
-        if (cursor != null)
-            cursor.moveToFirst();
-
-        Game game = new Game(Integer.parseInt(cursor.getString(0)), cursor.getString(1),
-                cursor.getString(2), cursor.getString(3), cursor.getString(4),
-                cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9));
-        return game;
-    }
-
-
-
-
-
-    //get all games in a list view
-    public List<Game> getAllGames() {
-        List<Game> gameList = new ArrayList<Game>();
-        String selectQuery = "SELECT *FROM " + TABLE_GAME;
-
+    void gameUpdateData(String row_id, String game_title, String game_platform, String game_region, String game_expansion, String game_media_type, String game_copies, String game_notes){
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
+        ContentValues cv = new ContentValues();
+        cv.put(KEY_NAME, game_title);
+        cv.put(KEY_PLATFORM, game_platform);
+        cv.put(KEY_REGION, game_region);
+        cv.put(KEY_EXPANSION, game_expansion);
+        cv.put(KEY_MEDIA_TYPE, game_media_type);
+        cv.put(KEY_COPIES, game_copies);
+        cv.put(KEY_NOTES, game_notes);
 
-        if (cursor.moveToFirst()) {
-            do {
-                Game game = new Game();
-                game.setID(Integer.parseInt(cursor.getString(0)));
-                game.setName(cursor.getString(1));
-                game.setPlatform(cursor.getString(2));
-                game.setRegion(cursor.getString(3));
-                game.setRegion(cursor.getString(4));
-                game.setExpansion(cursor.getString(5));
-                game.setMediaType(cursor.getString(6));
-                game.setCopies(cursor.getString(7));
-                //game.setNotes(cursor.getString(8));
-                gameList.add(game);
-            } while ( cursor.moveToNext());
+        long result = db.update(TABLE_GAME, cv, "id=?", new String[]{row_id});
+        if (result == -1){
+            Toast.makeText(context, "Failed to update.", Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(context, "Successfully updated!", Toast.LENGTH_SHORT).show();
         }
-        return gameList;
     }
-
-    //update single game
-    public int updateGame(Game game) {
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        ContentValues values = new ContentValues();
-        values.put(KEY_NAME, game.getName());
-        values.put(KEY_PLATFORM, game.getPlatform());
-        //todo loput
-
-        //updating row
-        return db.update(TABLE_GAME, values, KEY_ID + " = ?", new String[] {String.valueOf(game.getID())});
-    }
-
-    //deleting single game
-    public void deleteGame(Game game){
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_GAME, KEY_ID + " = ?", new String[]{String.valueOf(game.getID())});
-        db.close();
-    }
-
-    //getting game count
-    public int getGameCount(){
-        String countQuery = "SELECT *FROM " + TABLE_GAME;
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(countQuery, null);
-        cursor.close();
-
-        return cursor.getCount();
-    }
-
-     */
 }

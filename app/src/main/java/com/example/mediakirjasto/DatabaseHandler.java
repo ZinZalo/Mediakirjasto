@@ -15,6 +15,7 @@ import java.util.List;
 
 public class DatabaseHandler extends SQLiteOpenHelper {
     private Context context;
+    //h
 
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME =  "Kollektio";

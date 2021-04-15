@@ -9,7 +9,8 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -19,10 +20,12 @@ public class ActivityGames extends AppCompatActivity {
 
     RecyclerView recyclerView;
     FloatingActionButton add_button;
+    ImageView empty_imageView;
+    TextView empty_textView;
 
     DatabaseHandler db;
     ArrayList<String>  game_id, game_title, game_platform, game_region, game_expansion, game_media_type, game_copies, game_notes;
-    CustomAdapter customAdapter;
+    CustomGamesAdapter customGamesAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +34,8 @@ public class ActivityGames extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerView);
         add_button = findViewById(R.id.game_add_button);
+        empty_imageView = findViewById(R.id.empty_imageView);
+        empty_textView = findViewById(R.id.empty_textView);
         add_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -51,8 +56,8 @@ public class ActivityGames extends AppCompatActivity {
 
         gameDisplayData();
 
-        customAdapter = new CustomAdapter(ActivityGames.this,this, game_id, game_title, game_platform ,game_region, game_expansion, game_media_type, game_copies, game_notes);
-        recyclerView.setAdapter(customAdapter);
+        customGamesAdapter = new CustomGamesAdapter(ActivityGames.this,this, game_id, game_title, game_platform ,game_region, game_expansion, game_media_type, game_copies, game_notes);
+        recyclerView.setAdapter(customGamesAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(ActivityGames.this));
 
     }
@@ -68,7 +73,8 @@ public class ActivityGames extends AppCompatActivity {
     void gameDisplayData(){
         Cursor cursor = db.gameReadData();
         if (cursor.getCount() == 0){
-            Toast.makeText(this, "No data", Toast.LENGTH_SHORT).show();
+            empty_imageView.setVisibility(View.VISIBLE);
+            empty_textView.setVisibility(View.VISIBLE);
         }else{
             while (cursor.moveToNext()){
                 game_id.add(cursor.getString(0));
@@ -80,6 +86,8 @@ public class ActivityGames extends AppCompatActivity {
                 game_copies.add(cursor.getString(6));
                 game_notes.add(cursor.getString(7));
             }
+            empty_imageView.setVisibility(View.GONE);
+            empty_textView.setVisibility(View.GONE);
         }
     }
 

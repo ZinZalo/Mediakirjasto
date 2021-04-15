@@ -114,4 +114,15 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             Toast.makeText(context, "Successfully updated!", Toast.LENGTH_SHORT).show();
         }
     }
+
+    void deleteOneGameRow(String row_id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        long result = db.delete(TABLE_GAME, "id=?", new String[]{row_id});
+        if (result == -1){
+            Toast.makeText(context, "Failed to delete", Toast.LENGTH_SHORT).show();
+        }else {
+            Toast.makeText(context, "Succesfully deleted.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 }

@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,22 +14,22 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHolder> {
+public class CustomGamesAdapter extends RecyclerView.Adapter<CustomGamesAdapter.MyViewHolder> {
 
     private Context context;
     Activity activity;
     private ArrayList game_id, game_title, game_platform, game_region, game_expansion, game_media_type, game_copies, game_notes;
 
-    CustomAdapter(Activity activity,
-            Context context,
-                  ArrayList game_id,
-                  ArrayList game_title,
-                  ArrayList game_platform,
-                  ArrayList game_region,
-                  ArrayList game_expansion,
-                  ArrayList game_media_type,
-                  ArrayList game_copies,
-                  ArrayList game_notes){
+    CustomGamesAdapter(Activity activity,
+                       Context context,
+                       ArrayList game_id,
+                       ArrayList game_title,
+                       ArrayList game_platform,
+                       ArrayList game_region,
+                       ArrayList game_expansion,
+                       ArrayList game_media_type,
+                       ArrayList game_copies,
+                       ArrayList game_notes){
         this.activity = activity;
         this.context = context;
         this.game_id = game_id;
@@ -54,7 +53,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
-        holder.game_id_txt.setText(String.valueOf(game_id.get(position)));
+        //holder.game_id_txt.setText(String.valueOf(game_id.get(position)));
         holder.game_title_txt.setText(String.valueOf(game_title.get(position)));
         holder.game_platform_txt.setText(String.valueOf(game_platform.get(position)));
         holder.game_region_txt.setText(String.valueOf(game_region.get(position)));
@@ -87,12 +86,12 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView game_id_txt, game_title_txt, game_platform_txt, game_region_txt, game_expansion_txt, game_media_type_txt, game_copies_txt, game_notes_txt;
+        TextView /*game_id_txt,*/ game_title_txt, game_platform_txt, game_region_txt, game_expansion_txt, game_media_type_txt, game_copies_txt, game_notes_txt;
         ConstraintLayout gameLayout;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            game_id_txt = itemView.findViewById(R.id.game_id_txt);
+            //game_id_txt = itemView.findViewById(R.id.game_id_txt);
             game_title_txt = itemView.findViewById(R.id.game_title_txt);
             game_platform_txt = itemView.findViewById(R.id.game_platform_txt);
             game_region_txt = itemView.findViewById(R.id.game_region_txt);

@@ -90,5 +90,4 @@ public class ActivityGames extends AppCompatActivity {
             empty_textView.setVisibility(View.GONE);
         }
     }
-
 }

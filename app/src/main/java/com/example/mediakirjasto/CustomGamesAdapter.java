@@ -45,14 +45,14 @@ public class CustomGamesAdapter extends RecyclerView.Adapter<CustomGamesAdapter.
 
     @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public CustomGamesAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.game_row, parent, false);
-        return new MyViewHolder(view);
+        return new CustomGamesAdapter.MyViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull CustomGamesAdapter.MyViewHolder holder, final int position) {
         //holder.game_id_txt.setText(String.valueOf(game_id.get(position)));
         holder.game_title_txt.setText(String.valueOf(game_title.get(position)));
         holder.game_platform_txt.setText(String.valueOf(game_platform.get(position)));

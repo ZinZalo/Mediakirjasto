@@ -9,10 +9,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Mediakirjasto">
+        <activity android:name=".UpdateMusicActivity"></activity>
+        <activity android:name=".UpdateMovieActivity" />
+        <activity android:name=".UpdateBookActivity" />
+        <activity android:name=".AddMusicActivity" />
+        <activity android:name=".AddMovieActivity" />
+        <activity android:name=".AddBookActivity" />
         <activity
             android:name=".UpdateGameActivity"
             android:label="Update Game"
-            android:parentActivityName=".ActivityGames"/>
+            android:parentActivityName=".ActivityGames" />
         <activity
             android:name=".AddGameActivity"
             android:label="Add Game"
